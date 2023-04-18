@@ -6,14 +6,32 @@
 </head>
 <body>
 
-<h1>Bem vindo</h1>
-
-<br/>
+<h1>Bem vindo ao Curso de JSP</h1>
 
 <form action="servletLogin" method="post">
-    <input type="text" name="nome">
-    <input type="submit" value="Enviar">
+
+    <table>
+
+        <tr>
+            <td><label>Login:</label></td>
+            <td><input type="text" name="Login"></td>
+        </tr>
+
+        <tr>
+            <td><label>Senha:</label></td>
+            <td><input type="password" name="Senha"></td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Enviar"></td>
+        </tr>
+
+    </table>
+
 </form>
+
+<h4>${msg}</h4>
 
 </body>
 </html>
