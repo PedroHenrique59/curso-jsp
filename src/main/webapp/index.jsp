@@ -10,12 +10,10 @@
 
 <br/>
 
-
-<form action="receber-nome.jsp">
+<form action="servletLogin" method="post">
     <input type="text" name="nome">
     <input type="submit" value="Enviar">
 </form>
-
 
 </body>
 </html>
