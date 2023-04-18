@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "servletLogin", value = "/servletLogin")
+@WebServlet("/servletLogin")
 public class ServletLogin extends HttpServlet {
 
     public ServletLogin() {
