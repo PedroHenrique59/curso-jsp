@@ -2,13 +2,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>Curso JSP</title>
 </head>
 <body>
-<h1><%= "Hello World!" %>
-</h1>
+
+<h1>Bem vindo</h1>
+
 <br/>
-<a href="hello-servlet">Hello Servlet</a>
+
+
+<form action="receber-nome.jsp">
+    <input type="text" name="nome">
+    <input type="submit" value="Enviar">
+</form>
+
 
 </body>
 </html>
