@@ -32,6 +32,7 @@ public class ServletLogin extends HttpServlet {
             modelLogin.setLogin(login);
             modelLogin.setSenha(senha);
             if (modelLogin.getLogin().equalsIgnoreCase("admin") && modelLogin.getSenha().equalsIgnoreCase("admin")) {
+
                 request.getSession().setAttribute("usuario", modelLogin.getLogin());
 
                 if (url == null || url.equals("null")) {
