@@ -1,0 +1,39 @@
+package filter;
+
+import javax.servlet.*;
+import javax.servlet.annotation.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+
+@WebFilter(urlPatterns = {"/principal/*"})
+public class FilterAutenticacao implements Filter {
+
+    /* Executado quando o servidor sobe */
+    public void init(FilterConfig config) throws ServletException {
+    }
+
+    /* Executado quando o servidor para */
+    public void destroy() {
+    }
+
+    /* Intercepta as requisições e as respostas no sistema */
+    /* Ex: Validar autenticação, fazer redirecionamento de páginas */
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpSession session = req.getSession();
+
+        String usuarioLogado = (String) session.getAttribute("usuario");
+
+        String urlAcessada = req.getServletPath(); //Url que está sendo acessada
+
+        if (usuarioLogado == null && !urlAcessada.equalsIgnoreCase("/principal/ServletLogin")) {
+            RequestDispatcher redireciona = request.getRequestDispatcher("/index.jsp?url=" + urlAcessada);
+            request.setAttribute("msg", "Realize o login para acessar essa página!");
+            redireciona.forward(request, response);
+        } else {
+            chain.doFilter(request, response);
+        }
+    }
+}

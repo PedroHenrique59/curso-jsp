@@ -8,10 +8,11 @@
 
 <h1>Bem vindo ao Curso de JSP</h1>
 
-<form action="servletLogin" method="post">
+<form action="ServletLogin" method="post">
+
+    <input type="hidden" value="<%= request.getParameter("url") %>" name="url">
 
     <table>
-
         <tr>
             <td><label>Login:</label></td>
             <td><input type="text" name="Login"></td>
@@ -26,7 +27,6 @@
             <td></td>
             <td><input type="submit" value="Enviar"></td>
         </tr>
-
     </table>
 
 </form>
@@ -34,4 +34,5 @@
 <h4>${msg}</h4>
 
 </body>
+
 </html>
