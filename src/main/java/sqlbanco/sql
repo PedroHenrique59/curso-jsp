@@ -19,3 +19,7 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.model_login
     OWNER to postgres;
+
+INSERT INTO public.model_login(
+	login, senha)
+	VALUES ('admin', 'admin');
