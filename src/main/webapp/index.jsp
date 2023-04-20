@@ -24,16 +24,16 @@
     <div class="col-md-6 offset-md-3">
         <label class="form-label">Login</label>
         <input type="text" class="form-control" name="Login" required="required">
-        <div class="valid-feedback">
-            Ok
+        <div class="invalid-feedback">
+            Informe o Login
         </div>
     </div>
 
     <div class="col-md-6 offset-md-3">
         <label class="form-label">Senha</label>
         <input type="password" class="form-control" name="Senha" required="required">
-        <div class="valid-feedback">
-            Ok
+        <div class="invalid-feedback">
+            Informe a Senha
         </div>
     </div>
 
