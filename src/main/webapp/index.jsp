@@ -1,37 +1,48 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
     <title>Curso JSP</title>
+
 </head>
+
 <body>
 
-<h1>Bem vindo ao Curso de JSP</h1>
+<div class="col-md-6 offset-md-3">
+    <h1>Bem vindo ao Curso de JSP</h1>
+</div>
 
-<form action="ServletLogin" method="post">
+<form class="row g-3" action="ServletLogin" method="post">
 
     <input type="hidden" value="<%= request.getParameter("url") %>" name="url">
 
-    <table>
-        <tr>
-            <td><label>Login:</label></td>
-            <td><input type="text" name="Login"></td>
-        </tr>
+    <div class="col-md-6 offset-md-3">
+        <label class="form-label">Login</label>
+        <input type="text" class="form-control" name="Login">
+    </div>
 
-        <tr>
-            <td><label>Senha:</label></td>
-            <td><input type="password" name="Senha"></td>
-        </tr>
+    <div class="col-md-6 offset-md-3">
+        <label class="form-label">Senha</label>
+        <input type="password" class="form-control" name="Senha">
+    </div>
 
-        <tr>
-            <td></td>
-            <td><input type="submit" value="Enviar"></td>
-        </tr>
-    </table>
+    <div class="col-md-6 offset-md-3">
+        <button type="submit" class="btn btn-primary">Acessar</button>
+    </div>
 
 </form>
 
 <h4>${msg}</h4>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous">
+</script>
 
 </body>
 
