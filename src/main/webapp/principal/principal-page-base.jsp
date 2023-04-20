@@ -35,7 +35,7 @@
                                 <!-- Page-body start -->
                                 <div class="page-body">
                                     <div class="row">
-                                    <h1>Conteudo página base do sistema</h1>
+                                        <h1>Conteudo página base do sistema</h1>
                                     </div>
                                 </div>
                                 <!-- Page-body end -->
@@ -50,7 +50,6 @@
 </div>
 
 <jsp:include page="javascriptfile.jsp"/>
-
 
 </body>
 
