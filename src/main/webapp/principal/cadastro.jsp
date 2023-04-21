@@ -47,31 +47,31 @@
                                                     <form class="form-material" action="ServletCadastro" method="post">
 
                                                         <div class="form-group form-default">
-                                                            <input type="text" name="id" id="id" class="form-control"
+                                                            <input type="text" name="id" id="id" value="${modelLogin.id}" class="form-control"
                                                                    readonly="readonly">
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">ID</label>
                                                         </div>
                                                         <div class="form-group form-default">
-                                                            <input type="text" name="nome" id="nome"
+                                                            <input type="text" name="nome" id="nome" value="${modelLogin.nome}"
                                                                    class="form-control" required="required">
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">Nome</label>
                                                         </div>
                                                         <div class="form-group form-default">
-                                                            <input type="email" name="email" id="email"
+                                                            <input type="email" name="email" id="email" value="${modelLogin.email}"
                                                                    class="form-control" required="required">
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">E-mail</label>
                                                         </div>
                                                         <div class="form-group form-default">
-                                                            <input type="text" name="login" id="login"
+                                                            <input type="text" name="login" id="login" value="${modelLogin.login}"
                                                                    class="form-control" required="required">
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">Login</label>
                                                         </div>
                                                         <div class="form-group form-default">
-                                                            <input type="password" name="senha" id="senha"
+                                                            <input type="password" name="senha" id="senha" value="${modelLogin.senha}"
                                                                    class="form-control" required="required">
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">Senha</label>
