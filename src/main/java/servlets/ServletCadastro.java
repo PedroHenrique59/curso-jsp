@@ -44,7 +44,7 @@ public class ServletCadastro extends HttpServlet {
             modelLogin.setLogin(login);
             modelLogin.setSenha(senha);
 
-            daoUsuario.salvar(modelLogin);
+            modelLogin = daoUsuario.salvar(modelLogin);
 
             RequestDispatcher redirecionar = request.getRequestDispatcher("principal/cadastro.jsp");
             request.setAttribute("modelLogin", modelLogin);
