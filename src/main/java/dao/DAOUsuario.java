@@ -35,7 +35,7 @@ public class DAOUsuario {
     }
 
     public ModelLogin obterPorLogin(String login) throws SQLException {
-        String sql = " SELECT * FROM model_login WHERE UPPER(login) = UPPER(?) ";
+        String sql = "SELECT * FROM model_login WHERE UPPER(login) = UPPER(?)";
 
         ModelLogin modelLogin = new ModelLogin();
 
@@ -53,5 +53,16 @@ public class DAOUsuario {
         }
 
         return modelLogin;
+    }
+
+    public boolean usuarioExiste(String login) throws SQLException {
+        String sql = "SELECT COUNT (1) > 0 as existe from model_login WHERE UPPER(login) = UPPER(?)";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet.next();
+
+        return resultSet.getBoolean("existe");
     }
 }

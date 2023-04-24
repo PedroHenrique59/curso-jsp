@@ -30,6 +30,8 @@ public class ServletCadastro extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
 
+            String mensagem = "Operação relaizada com sucesso";
+
             String id = request.getParameter("id");
             String nome = request.getParameter("nome");
             String email = request.getParameter("email");
@@ -44,7 +46,11 @@ public class ServletCadastro extends HttpServlet {
             modelLogin.setLogin(login);
             modelLogin.setSenha(senha);
 
-            modelLogin = daoUsuario.salvar(modelLogin);
+            if (daoUsuario.usuarioExiste(modelLogin.getLogin()) && modelLogin.getId() == null) {
+                mensagem = "Já existe um usuário com esse login. Favor informar outro!";
+            } else {
+                modelLogin = daoUsuario.salvar(modelLogin);
+            }
 
             RequestDispatcher redirecionar = request.getRequestDispatcher("principal/cadastro.jsp");
             request.setAttribute("modelLogin", modelLogin);
