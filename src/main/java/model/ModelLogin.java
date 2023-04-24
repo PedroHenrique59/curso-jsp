@@ -49,4 +49,8 @@ public class ModelLogin implements Serializable {
     public void setSenha(String senha) {
         this.senha = senha;
     }
+
+    public Boolean isNovo() {
+        return id == null;
+    }
 }

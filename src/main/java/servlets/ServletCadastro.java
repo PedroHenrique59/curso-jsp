@@ -54,7 +54,7 @@ public class ServletCadastro extends HttpServlet {
 
             RequestDispatcher redirecionar = request.getRequestDispatcher("principal/cadastro.jsp");
             request.setAttribute("modelLogin", modelLogin);
-            request.setAttribute("msg", "Operação realizada com sucesso!");
+            request.setAttribute("msg", mensagem);
             redirecionar.forward(request, response);
 
         } catch (Exception e) {

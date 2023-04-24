@@ -18,18 +18,33 @@ public class DAOUsuario {
 
     public ModelLogin salvar(ModelLogin objeto) throws SQLException {
 
-        String sql = " INSERT INTO model_login (login, senha, nome, email) VALUES (?, ?, ?, ?) ";
+        if (objeto.isNovo()) {
+            String sql = "INSERT INTO model_login (login, senha, nome, email) VALUES (?, ?, ?, ?)";
 
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-        preparedStatement.setString(1, objeto.getLogin());
-        preparedStatement.setString(2, objeto.getSenha());
-        preparedStatement.setString(3, objeto.getNome());
-        preparedStatement.setString(4, objeto.getEmail());
+            preparedStatement.setString(1, objeto.getLogin());
+            preparedStatement.setString(2, objeto.getSenha());
+            preparedStatement.setString(3, objeto.getNome());
+            preparedStatement.setString(4, objeto.getEmail());
 
-        preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } else {
+            String sql = "UPDATE model_login SET login = ?, senha = ?, nome = ?, email = ? WHERE id = ?";
 
-        connection.commit();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, objeto.getLogin());
+            preparedStatement.setString(2, objeto.getSenha());
+            preparedStatement.setString(3, objeto.getNome());
+            preparedStatement.setString(4, objeto.getEmail());
+            preparedStatement.setLong(5, objeto.getId());
+
+            preparedStatement.executeUpdate();
+            connection.commit();
+        }
+
 
         return obterPorLogin(objeto.getLogin());
     }
@@ -59,6 +74,7 @@ public class DAOUsuario {
         String sql = "SELECT COUNT (1) > 0 as existe from model_login WHERE UPPER(login) = UPPER(?)";
 
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, login);
 
         ResultSet resultSet = preparedStatement.executeQuery();
         resultSet.next();
