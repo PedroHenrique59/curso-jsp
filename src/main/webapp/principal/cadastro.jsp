@@ -44,7 +44,8 @@
 
                                                     <h4 class="sub-title">Cadastro de Usuário</h4>
 
-                                                    <form class="form-material" action="ServletCadastro" method="post">
+                                                    <form class="form-material" action="ServletCadastro" method="post"
+                                                          id="formCadastro">
 
                                                         <div class="form-group form-default">
                                                             <input type="text" name="id" id="id"
@@ -82,7 +83,9 @@
                                                             <label class="float-label">Senha</label>
                                                         </div>
 
-                                                        <button class="btn btn-primary waves-effect waves-light">Novo
+                                                        <button class="btn btn-primary waves-effect waves-light"
+                                                                type="button"
+                                                                onclick="limparForm();">Novo
                                                         </button>
 
                                                         <button class="btn btn-primary waves-effect waves-light">
@@ -110,6 +113,18 @@
         </div>
 
         <jsp:include page="javascriptfile.jsp"/>
+
+        <script type="text/javascript">
+
+            function limparForm() {
+                var elementos = document.getElementById("formCadastro").elements;
+                for (p = 0; p < elementos.length; p++) {
+                    elementos[p].value = '';
+                }
+            }
+
+        </script>
+
 
 </body>
 
