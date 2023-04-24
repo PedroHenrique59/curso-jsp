@@ -70,6 +70,17 @@ public class DAOUsuario {
         return modelLogin;
     }
 
+    public void excluir(Long id) throws SQLException {
+        String sql = "DELETE FROM model_login WHERE id = ?";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setLong(1, id);
+
+        preparedStatement.executeUpdate();
+
+        connection.commit();
+    }
+
     public boolean usuarioExiste(String login) throws SQLException {
         String sql = "SELECT COUNT (1) > 0 as existe from model_login WHERE UPPER(login) = UPPER(?)";
 
@@ -81,4 +92,5 @@ public class DAOUsuario {
 
         return resultSet.getBoolean("existe");
     }
+
 }

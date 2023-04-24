@@ -47,35 +47,37 @@
                                                     <form class="form-material" action="ServletCadastro" method="post"
                                                           id="formCadastro">
 
-                                                        <div class="form-group form-default">
+                                                        <input type="hidden" name="acao" id="acao" value="">
+
+                                                        <div class="form-group form-default form-static-label">
                                                             <input type="text" name="id" id="id"
                                                                    value="${modelLogin.id}" class="form-control"
                                                                    readonly="readonly">
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">ID</label>
                                                         </div>
-                                                        <div class="form-group form-default">
+                                                        <div class="form-group form-default form-static-label">
                                                             <input type="text" name="nome" id="nome"
                                                                    value="${modelLogin.nome}"
                                                                    class="form-control" required="required">
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">Nome</label>
                                                         </div>
-                                                        <div class="form-group form-default">
+                                                        <div class="form-group form-default form-static-label">
                                                             <input type="email" name="email" id="email"
                                                                    value="${modelLogin.email}"
                                                                    class="form-control" required="required">
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">E-mail</label>
                                                         </div>
-                                                        <div class="form-group form-default">
+                                                        <div class="form-group form-default form-static-label">
                                                             <input type="text" name="login" id="login"
                                                                    value="${modelLogin.login}"
                                                                    class="form-control" required="required">
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">Login</label>
                                                         </div>
-                                                        <div class="form-group form-default">
+                                                        <div class="form-group form-default form-static-label">
                                                             <input type="password" name="senha" id="senha"
                                                                    value="${modelLogin.senha}"
                                                                    class="form-control" required="required">
@@ -92,7 +94,8 @@
                                                             Salvar
                                                         </button>
 
-                                                        <button class="btn btn-primary waves-effect waves-light">
+                                                        <button class="btn btn-primary waves-effect waves-light"
+                                                                type="button" onclick="criarDelete();">
                                                             Excluir
                                                         </button>
 
@@ -115,6 +118,12 @@
         <jsp:include page="javascriptfile.jsp"/>
 
         <script type="text/javascript">
+
+            function criarDelete() {
+                document.getElementById("formCadastro").method = 'get';
+                document.getElementById("acao").value = 'excluir';
+                document.getElementById("formCadastro").submit();
+            }
 
             function limparForm() {
                 var elementos = document.getElementById("formCadastro").elements;

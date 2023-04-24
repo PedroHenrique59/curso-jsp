@@ -22,14 +22,30 @@ public class ServletCadastro extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher redirecionar = request.getRequestDispatcher("/principal/cadastro.jsp");
-        redirecionar.forward(request, response);
+        try {
+            String acao = request.getParameter("acao");
+            if (acao != null) {
+                if (acao.equalsIgnoreCase("acessarPagina")) {
+                    RequestDispatcher redirecionar = request.getRequestDispatcher("/principal/cadastro.jsp");
+                    redirecionar.forward(request, response);
+                } else if (acao.equalsIgnoreCase("excluir")) {
+                    Long id = Long.valueOf(request.getParameter("id"));
+                    daoUsuario.excluir(id);
+                    request.setAttribute("msg", "Excluído com sucesso!");
+                    request.getRequestDispatcher("/principal/cadastro.jsp").forward(request, response);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            RequestDispatcher redirecionar = request.getRequestDispatcher("erro.jsp");
+            request.setAttribute("msg", e.getMessage());
+            redirecionar.forward(request, response);
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-
             String mensagem = "Operação relaizada com sucesso";
 
             String id = request.getParameter("id");
@@ -63,6 +79,5 @@ public class ServletCadastro extends HttpServlet {
             request.setAttribute("msg", e.getMessage());
             redirecionar.forward(request, response);
         }
-
     }
 }
