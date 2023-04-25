@@ -74,7 +74,6 @@ public class DAOUsuario {
         return usuarios;
     }
 
-
     public ModelLogin obterPorLogin(String login) throws SQLException {
         String sql = "SELECT * FROM model_login WHERE UPPER(login) = UPPER(?)";
 
@@ -83,6 +82,21 @@ public class DAOUsuario {
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, login);
 
+        return montarModelLogin(modelLogin, preparedStatement);
+    }
+
+    public ModelLogin obterPorId(String id) throws SQLException {
+        String sql = "SELECT * FROM model_login WHERE id = (?)";
+
+        ModelLogin modelLogin = new ModelLogin();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setLong(1, Long.parseLong(id));
+
+        return montarModelLogin(modelLogin, preparedStatement);
+    }
+
+    private ModelLogin montarModelLogin(ModelLogin modelLogin, PreparedStatement preparedStatement) throws SQLException {
         ResultSet resultSet = preparedStatement.executeQuery();
 
         if (resultSet.next()) {

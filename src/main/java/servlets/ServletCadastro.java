@@ -51,8 +51,14 @@ public class ServletCadastro extends HttpServlet {
                         String json = objectMapper.writeValueAsString(usuarios);
                         response.getWriter().write(json);
                     }
+                } else if (acao.equalsIgnoreCase("buscarEditar")) {
+                    String id = request.getParameter("id");
+                    ModelLogin modelLogin = daoUsuario.obterPorId(id);
+                    request.setAttribute("msg", "Usuário em edição");
+                    request.setAttribute("modelLogin", modelLogin);
+                    request.getRequestDispatcher("/principal/cadastro.jsp").forward(request, response);
                 } else {
-                    request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
+                    request.getRequestDispatcher("/principal/cadastro.jsp").forward(request, response);
                 }
             }
         } catch (Exception e) {
