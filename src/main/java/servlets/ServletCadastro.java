@@ -24,15 +24,25 @@ public class ServletCadastro extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String acao = request.getParameter("acao");
-            if (acao != null) {
+            if (acao != null && !acao.isEmpty()) {
                 if (acao.equalsIgnoreCase("acessarPagina")) {
                     RequestDispatcher redirecionar = request.getRequestDispatcher("/principal/cadastro.jsp");
                     redirecionar.forward(request, response);
                 } else if (acao.equalsIgnoreCase("excluir")) {
-                    Long id = Long.valueOf(request.getParameter("id"));
-                    daoUsuario.excluir(id);
-                    request.setAttribute("msg", "Excluído com sucesso!");
-                    request.getRequestDispatcher("/principal/cadastro.jsp").forward(request, response);
+                    String id = request.getParameter("id");
+                    if (id != null && !id.isEmpty()) {
+                        daoUsuario.excluir(id);
+                        request.setAttribute("msg", "Excluído com sucesso!");
+                        request.getRequestDispatcher("/principal/cadastro.jsp").forward(request, response);
+                    }
+                } else if (acao.equalsIgnoreCase("excluirAjax")) {
+                    String id = request.getParameter("id");
+                    if (id != null && !id.isEmpty()) {
+                        daoUsuario.excluir(id);
+                        response.getWriter().write("Excluído com sucesso!");
+                    }
+                } else {
+                    request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
                 }
             }
         } catch (Exception e) {

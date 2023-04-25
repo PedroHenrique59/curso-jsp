@@ -95,7 +95,7 @@
                                                         </button>
 
                                                         <button class="btn btn-primary waves-effect waves-light"
-                                                                type="button" onclick="criarDelete();">
+                                                                type="button" onclick="criarDeleteComAjax();">
                                                             Excluir
                                                         </button>
 
@@ -103,7 +103,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <span>${msg}</span>
+
+                                        <span id="msg">${msg}</span>
+
                                         <!-- Page-body end -->
                                     </div>
                                     <div id="styleSelector"></div>
@@ -119,10 +121,32 @@
 
         <script type="text/javascript">
 
-            function criarDelete() {
-                document.getElementById("formCadastro").method = 'get';
-                document.getElementById("acao").value = 'excluir';
-                document.getElementById("formCadastro").submit();
+            function criarDeleteComAjax() {
+                if (confirm('Deseja realmente excluir os dados?')) {
+
+                    var urlAction = document.getElementById("formCadastro").action;
+                    var idUser = document.getElementById("id").value;
+
+                    $.ajax({
+                        method: "get",
+                        url: urlAction,
+                        data: "id=" + idUser + '&acao=excluirAjax',
+                        success: function (response) {
+                            alert(response);
+                            limparForm();
+                        }
+                    }).fail(function (xhr, status, errorThrown) {
+                        alert('Erro ao deletar usuário por id: ' + xhr.responseText);
+                    });
+                }
+            }
+
+            function criarDeletePorSubmit() {
+                if (confirm('Deseja realmente excluir os dados?')) {
+                    document.getElementById("formCadastro").method = 'get';
+                    document.getElementById("acao").value = 'excluir';
+                    document.getElementById("formCadastro").submit();
+                }
             }
 
             function limparForm() {

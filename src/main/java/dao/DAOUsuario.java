@@ -70,11 +70,11 @@ public class DAOUsuario {
         return modelLogin;
     }
 
-    public void excluir(Long id) throws SQLException {
+    public void excluir(String id) throws SQLException {
         String sql = "DELETE FROM model_login WHERE id = ?";
 
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setLong(1, id);
+        preparedStatement.setLong(1, Long.parseLong(id));
 
         preparedStatement.executeUpdate();
 
