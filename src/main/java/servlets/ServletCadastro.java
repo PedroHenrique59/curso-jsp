@@ -1,5 +1,6 @@
 package servlets;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.DAOUsuario;
 import model.ModelLogin;
 
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/ServletCadastro")
 public class ServletCadastro extends HttpServlet {
@@ -40,6 +42,14 @@ public class ServletCadastro extends HttpServlet {
                     if (id != null && !id.isEmpty()) {
                         daoUsuario.excluir(id);
                         response.getWriter().write("Excluído com sucesso!");
+                    }
+                } else if (acao.equalsIgnoreCase("pesquisarAjax")) {
+                    String nome = request.getParameter("nome");
+                    if (nome != null && !nome.isEmpty()) {
+                        List<ModelLogin> usuarios = daoUsuario.obterPorNome(nome);
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        String json = objectMapper.writeValueAsString(usuarios);
+                        response.getWriter().write(json);
                     }
                 } else {
                     request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);

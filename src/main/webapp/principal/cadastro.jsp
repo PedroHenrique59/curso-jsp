@@ -99,6 +99,12 @@
                                                             Excluir
                                                         </button>
 
+                                                        <button type="button" class="btn btn-primary"
+                                                                data-toggle="modal"
+                                                                data-target="#modalPesquisarUsuario">
+                                                            Pesquisar
+                                                        </button>
+
                                                     </form>
                                                 </div>
                                             </div>
@@ -119,7 +125,79 @@
 
         <jsp:include page="javascriptfile.jsp"/>
 
+        <div class="modal fade" id="modalPesquisarUsuario" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Pesquisar</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                            <input type="text" id="inputNome" class="form-control" placeholder="Nome"
+                                   aria-label="Recipient's username" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" onclick="buscarUsuario()">
+                                    Pesquisar
+                                </button>
+                            </div>
+                        </div>
+
+                        <div style="height: 300px; overflow: scroll;">
+                            <table class="table" id="tabelaUsuarios">
+                                <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">Ver</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <span id="totalResultados"></span>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script type="text/javascript">
+
+            function buscarUsuario() {
+                var nome = document.getElementById("inputNome").value;
+                var urlAction = document.getElementById("formCadastro").action;
+
+                if (nome != null && nome !== '' && nome.trim() !== '') {
+                    $.ajax({
+                        method: "get",
+                        url: urlAction,
+                        data: "nome=" + nome + '&acao=pesquisarAjax',
+                        success: function (response) {
+                            var json = JSON.parse(response);
+
+                            $('#tabelaUsuarios > tbody > tr').remove();
+
+                            for (var p = 0; p < json.length; p++) {
+                                $('#tabelaUsuarios > tbody').append('<tr> <td>' + json[p].id + '</td> <td>' + json[p].nome + '</td> <td> <button type="button" class="btn btn-info">Ver</button> </td> </tr>');
+                            }
+
+                            document.getElementById("totalResultados").textContent = "Resultados: " + json.length;
+
+                        }
+                    }).fail(function (xhr, status, errorThrown) {
+                        alert('Erro ao pesquisar usuário por nome: ' + xhr.responseText);
+                    });
+                }
+            }
 
             function criarDeleteComAjax() {
                 if (confirm('Deseja realmente excluir os dados?')) {
@@ -157,7 +235,6 @@
             }
 
         </script>
-
 
 </body>
 

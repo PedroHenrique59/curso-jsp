@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DAOUsuario {
 
@@ -48,6 +50,30 @@ public class DAOUsuario {
 
         return obterPorLogin(objeto.getLogin());
     }
+
+    public List<ModelLogin> obterPorNome(String nome) throws SQLException {
+        List<ModelLogin> usuarios = new ArrayList<>();
+
+        String sql = "SELECT * FROM model_login WHERE UPPER(nome) LIKE UPPER(?)";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, "%" + nome + "%");
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            ModelLogin modelLogin = new ModelLogin();
+            modelLogin.setId(resultSet.getLong("id"));
+            modelLogin.setNome(resultSet.getString("nome"));
+            modelLogin.setEmail(resultSet.getString("email"));
+            modelLogin.setLogin(resultSet.getString("login"));
+            modelLogin.setSenha(resultSet.getString("senha"));
+            usuarios.add(modelLogin);
+        }
+
+        return usuarios;
+    }
+
 
     public ModelLogin obterPorLogin(String login) throws SQLException {
         String sql = "SELECT * FROM model_login WHERE UPPER(login) = UPPER(?)";
