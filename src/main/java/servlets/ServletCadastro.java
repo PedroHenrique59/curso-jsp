@@ -7,14 +7,13 @@ import model.ModelLogin;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/ServletCadastro")
-public class ServletCadastro extends HttpServlet {
+public class ServletCadastro extends ServletGenericUtil {
 
     private DAOUsuario daoUsuario = new DAOUsuario();
 
@@ -28,14 +27,14 @@ public class ServletCadastro extends HttpServlet {
             String acao = request.getParameter("acao");
             if (acao != null && !acao.isEmpty()) {
                 if (acao.equalsIgnoreCase("acessarPagina")) {
-                    List<ModelLogin> usuarios = daoUsuario.obterTodos();
+                    List<ModelLogin> usuarios = daoUsuario.obterTodos(super.getUsuarioLogado(request));
                     request.setAttribute("listaUsuarios", usuarios);
                     request.getRequestDispatcher("/principal/cadastro.jsp").forward(request, response);
                 } else if (acao.equalsIgnoreCase("excluir")) {
                     String id = request.getParameter("id");
                     if (id != null && !id.isEmpty()) {
                         daoUsuario.excluir(id);
-                        List<ModelLogin> usuarios = daoUsuario.obterTodos();
+                        List<ModelLogin> usuarios = daoUsuario.obterTodos(super.getUsuarioLogado(request));
                         request.setAttribute("listaUsuarios", usuarios);
                         request.setAttribute("msg", "Excluído com sucesso!");
                         request.getRequestDispatcher("/principal/cadastro.jsp").forward(request, response);
@@ -49,15 +48,15 @@ public class ServletCadastro extends HttpServlet {
                 } else if (acao.equalsIgnoreCase("pesquisarAjax")) {
                     String nome = request.getParameter("nome");
                     if (nome != null && !nome.isEmpty()) {
-                        List<ModelLogin> usuarios = daoUsuario.obterPorNome(nome);
+                        List<ModelLogin> usuarios = daoUsuario.obterPorNome(nome, super.getUsuarioLogado(request));
                         ObjectMapper objectMapper = new ObjectMapper();
                         String json = objectMapper.writeValueAsString(usuarios);
                         response.getWriter().write(json);
                     }
                 } else if (acao.equalsIgnoreCase("buscarEditar")) {
                     String id = request.getParameter("id");
-                    ModelLogin modelLogin = daoUsuario.obterPorId(id);
-                    List<ModelLogin> usuarios = daoUsuario.obterTodos();
+                    ModelLogin modelLogin = daoUsuario.obterPorId(id, super.getUsuarioLogado(request));
+                    List<ModelLogin> usuarios = daoUsuario.obterTodos(super.getUsuarioLogado(request));
                     request.setAttribute("listaUsuarios", usuarios);
                     request.setAttribute("msg", "Usuário em edição");
                     request.setAttribute("modelLogin", modelLogin);
@@ -96,7 +95,7 @@ public class ServletCadastro extends HttpServlet {
             if (daoUsuario.usuarioExiste(modelLogin.getLogin()) && modelLogin.getId() == null) {
                 mensagem = "Já existe um usuário com esse login. Favor informar outro!";
             } else {
-                modelLogin = daoUsuario.salvar(modelLogin);
+                modelLogin = daoUsuario.salvar(modelLogin, super.getUsuarioLogado(request));
             }
 
             RequestDispatcher redirecionar = request.getRequestDispatcher("principal/cadastro.jsp");

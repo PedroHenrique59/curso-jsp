@@ -18,10 +18,10 @@ public class DAOUsuario {
         connection = SingleConnection.getConnection();
     }
 
-    public ModelLogin salvar(ModelLogin objeto) throws SQLException {
+    public ModelLogin salvar(ModelLogin objeto, Long idUsuarioLogado) throws SQLException {
 
         if (objeto.isNovo()) {
-            String sql = "INSERT INTO model_login (login, senha, nome, email) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO model_login (login, senha, nome, email, usuario_id) VALUES (?, ?, ?, ?, ?)";
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
@@ -29,6 +29,7 @@ public class DAOUsuario {
             preparedStatement.setString(2, objeto.getSenha());
             preparedStatement.setString(3, objeto.getNome());
             preparedStatement.setString(4, objeto.getEmail());
+            preparedStatement.setLong(5, idUsuarioLogado);
 
             preparedStatement.executeUpdate();
             connection.commit();
@@ -47,32 +48,56 @@ public class DAOUsuario {
             connection.commit();
         }
 
-
-        return obterPorLogin(objeto.getLogin());
+        return obterPorLogin(objeto.getLogin(), idUsuarioLogado);
     }
 
-    public List<ModelLogin> obterPorNome(String nome) throws SQLException {
+    public List<ModelLogin> obterPorNome(String nome, Long idUsuarioLogado) throws SQLException {
         List<ModelLogin> usuarios = new ArrayList<>();
 
-        String sql = "SELECT * FROM model_login WHERE UPPER(nome) LIKE UPPER(?)";
+        String sql = "SELECT * FROM model_login WHERE UPPER(nome) LIKE UPPER(?) AND useradmin IS FALSE AND usuario_id = ?";
 
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, "%" + nome + "%");
+        preparedStatement.setLong(2, idUsuarioLogado);
 
         return montarListaUsuarios(usuarios, preparedStatement);
     }
 
-    public List<ModelLogin> obterTodos() throws SQLException {
+    public List<ModelLogin> obterTodos(Long idUsuarioLogado) throws SQLException {
         List<ModelLogin> usuarios = new ArrayList<>();
 
-        String sql = "SELECT * FROM model_login";
+        String sql = "SELECT * FROM model_login WHERE useradmin IS FALSE AND usuario_id = ?";
 
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setLong(1, idUsuarioLogado);
 
         return montarListaUsuarios(usuarios, preparedStatement);
+    }
+
+    public ModelLogin obterPorLogin(String login, Long idUsuarioLogado) throws SQLException {
+        String sql = "SELECT * FROM model_login WHERE UPPER(login) = UPPER(?) AND useradmin IS FALSE AND usuario_id = ?";
+
+        ModelLogin modelLogin = new ModelLogin();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, login);
+        preparedStatement.setLong(2, idUsuarioLogado);
+
+        return montarModelLogin(modelLogin, preparedStatement);
     }
 
     public ModelLogin obterPorLogin(String login) throws SQLException {
+        String sql = "SELECT * FROM model_login WHERE UPPER(login) = UPPER(?) AND useradmin IS FALSE";
+
+        ModelLogin modelLogin = new ModelLogin();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, login);
+
+        return montarModelLogin(modelLogin, preparedStatement);
+    }
+
+    public ModelLogin consultaUsuarioLogado(String login) throws SQLException {
         String sql = "SELECT * FROM model_login WHERE UPPER(login) = UPPER(?)";
 
         ModelLogin modelLogin = new ModelLogin();
@@ -83,19 +108,20 @@ public class DAOUsuario {
         return montarModelLogin(modelLogin, preparedStatement);
     }
 
-    public ModelLogin obterPorId(String id) throws SQLException {
-        String sql = "SELECT * FROM model_login WHERE id = (?)";
+    public ModelLogin obterPorId(String id, Long idUsuarioLogado) throws SQLException {
+        String sql = "SELECT * FROM model_login WHERE id = (?) AND useradmin IS FALSE AND usuario_id = ?";
 
         ModelLogin modelLogin = new ModelLogin();
 
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setLong(1, Long.parseLong(id));
+        preparedStatement.setLong(2, idUsuarioLogado);
 
         return montarModelLogin(modelLogin, preparedStatement);
     }
 
     public void excluir(String id) throws SQLException {
-        String sql = "DELETE FROM model_login WHERE id = ?";
+        String sql = "DELETE FROM model_login WHERE id = ? AND useradmin IS FALSE";
 
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setLong(1, Long.parseLong(id));
