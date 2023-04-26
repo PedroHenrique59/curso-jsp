@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -114,6 +114,30 @@
 
                                         <span id="msg">${msg}</span>
 
+                                        <div style="height: 300px; overflow: scroll;">
+                                            <table class="table" id="tabelaUsuariosView">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">ID</th>
+                                                    <th scope="col">Nome</th>
+                                                    <th scope="col">Ver</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <c:forEach items="${listaUsuarios}" var="usuario">
+                                                    <tr>
+                                                        <td><c:out value="${usuario.id}"> </c:out></td>
+                                                        <td><c:out value="${usuario.nome}"> </c:out></td>
+                                                        <td>
+                                                            <a class="btn btn-outline-secondary"
+                                                               href="ServletCadastro?acao=buscarEditar&id=${usuario.id}">Ver</a>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
                                         <!-- Page-body end -->
                                     </div>
                                     <div id="styleSelector"></div>
@@ -203,7 +227,7 @@
 
             function verEditar(id) {
                 var urlAction = document.getElementById("formCadastro").action;
-                window.location.href = urlAction + '?acao=buscarEditar&id='+id;
+                window.location.href = urlAction + '?acao=buscarEditar&id=' + id;
             }
 
             function criarDeleteComAjax() {

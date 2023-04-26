@@ -28,12 +28,15 @@ public class ServletCadastro extends HttpServlet {
             String acao = request.getParameter("acao");
             if (acao != null && !acao.isEmpty()) {
                 if (acao.equalsIgnoreCase("acessarPagina")) {
-                    RequestDispatcher redirecionar = request.getRequestDispatcher("/principal/cadastro.jsp");
-                    redirecionar.forward(request, response);
+                    List<ModelLogin> usuarios = daoUsuario.obterTodos();
+                    request.setAttribute("listaUsuarios", usuarios);
+                    request.getRequestDispatcher("/principal/cadastro.jsp").forward(request, response);
                 } else if (acao.equalsIgnoreCase("excluir")) {
                     String id = request.getParameter("id");
                     if (id != null && !id.isEmpty()) {
                         daoUsuario.excluir(id);
+                        List<ModelLogin> usuarios = daoUsuario.obterTodos();
+                        request.setAttribute("listaUsuarios", usuarios);
                         request.setAttribute("msg", "Excluído com sucesso!");
                         request.getRequestDispatcher("/principal/cadastro.jsp").forward(request, response);
                     }
@@ -54,6 +57,8 @@ public class ServletCadastro extends HttpServlet {
                 } else if (acao.equalsIgnoreCase("buscarEditar")) {
                     String id = request.getParameter("id");
                     ModelLogin modelLogin = daoUsuario.obterPorId(id);
+                    List<ModelLogin> usuarios = daoUsuario.obterTodos();
+                    request.setAttribute("listaUsuarios", usuarios);
                     request.setAttribute("msg", "Usuário em edição");
                     request.setAttribute("modelLogin", modelLogin);
                     request.getRequestDispatcher("/principal/cadastro.jsp").forward(request, response);

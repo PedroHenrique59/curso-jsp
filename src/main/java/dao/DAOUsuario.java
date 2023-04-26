@@ -59,19 +59,17 @@ public class DAOUsuario {
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, "%" + nome + "%");
 
-        ResultSet resultSet = preparedStatement.executeQuery();
+        return montarListaUsuarios(usuarios, preparedStatement);
+    }
 
-        while (resultSet.next()) {
-            ModelLogin modelLogin = new ModelLogin();
-            modelLogin.setId(resultSet.getLong("id"));
-            modelLogin.setNome(resultSet.getString("nome"));
-            modelLogin.setEmail(resultSet.getString("email"));
-            modelLogin.setLogin(resultSet.getString("login"));
-            modelLogin.setSenha(resultSet.getString("senha"));
-            usuarios.add(modelLogin);
-        }
+    public List<ModelLogin> obterTodos() throws SQLException {
+        List<ModelLogin> usuarios = new ArrayList<>();
 
-        return usuarios;
+        String sql = "SELECT * FROM model_login";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+        return montarListaUsuarios(usuarios, preparedStatement);
     }
 
     public ModelLogin obterPorLogin(String login) throws SQLException {
@@ -94,20 +92,6 @@ public class DAOUsuario {
         preparedStatement.setLong(1, Long.parseLong(id));
 
         return montarModelLogin(modelLogin, preparedStatement);
-    }
-
-    private ModelLogin montarModelLogin(ModelLogin modelLogin, PreparedStatement preparedStatement) throws SQLException {
-        ResultSet resultSet = preparedStatement.executeQuery();
-
-        if (resultSet.next()) {
-            modelLogin.setId(resultSet.getLong("id"));
-            modelLogin.setNome(resultSet.getString("nome"));
-            modelLogin.setEmail(resultSet.getString("email"));
-            modelLogin.setLogin(resultSet.getString("login"));
-            modelLogin.setSenha(resultSet.getString("senha"));
-        }
-
-        return modelLogin;
     }
 
     public void excluir(String id) throws SQLException {
@@ -133,4 +117,33 @@ public class DAOUsuario {
         return resultSet.getBoolean("existe");
     }
 
+    private ModelLogin montarModelLogin(ModelLogin modelLogin, PreparedStatement preparedStatement) throws SQLException {
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        if (resultSet.next()) {
+            modelLogin.setId(resultSet.getLong("id"));
+            modelLogin.setNome(resultSet.getString("nome"));
+            modelLogin.setEmail(resultSet.getString("email"));
+            modelLogin.setLogin(resultSet.getString("login"));
+            modelLogin.setSenha(resultSet.getString("senha"));
+        }
+
+        return modelLogin;
+    }
+
+    private List<ModelLogin> montarListaUsuarios(List<ModelLogin> usuarios, PreparedStatement preparedStatement) throws SQLException {
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            ModelLogin modelLogin = new ModelLogin();
+            modelLogin.setId(resultSet.getLong("id"));
+            modelLogin.setNome(resultSet.getString("nome"));
+            modelLogin.setEmail(resultSet.getString("email"));
+            modelLogin.setLogin(resultSet.getString("login"));
+            modelLogin.setSenha(resultSet.getString("senha"));
+            usuarios.add(modelLogin);
+        }
+
+        return usuarios;
+    }
 }
