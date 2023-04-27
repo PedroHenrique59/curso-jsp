@@ -9,6 +9,7 @@ public class ModelLogin implements Serializable {
     private String email;
     private String login;
     private String senha;
+    private Boolean userAdmin;
 
     public Long getId() {
         return id;
@@ -50,7 +51,17 @@ public class ModelLogin implements Serializable {
         this.senha = senha;
     }
 
+    public Boolean getUserAdmin() {
+        return userAdmin;
+    }
+
+    public void setUserAdmin(Boolean userAdmin) {
+        this.userAdmin = userAdmin;
+    }
+
     public Boolean isNovo() {
         return id == null;
     }
+
+
 }

@@ -152,6 +152,7 @@ public class DAOUsuario {
             modelLogin.setEmail(resultSet.getString("email"));
             modelLogin.setLogin(resultSet.getString("login"));
             modelLogin.setSenha(resultSet.getString("senha"));
+            modelLogin.setUserAdmin(resultSet.getBoolean("useradmin"));
         }
 
         return modelLogin;

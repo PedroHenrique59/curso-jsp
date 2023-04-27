@@ -1,6 +1,7 @@
 package servlets;
 
 import dao.DAOLogin;
+import dao.DAOUsuario;
 import model.ModelLogin;
 
 import javax.servlet.RequestDispatcher;
@@ -15,6 +16,7 @@ import java.io.IOException;
 public class ServletLogin extends HttpServlet {
 
     private DAOLogin daoLogin = new DAOLogin();
+    private DAOUsuario daoUsuario = new DAOUsuario();
 
     public ServletLogin() {
 
@@ -47,7 +49,12 @@ public class ServletLogin extends HttpServlet {
                 modelLogin.setLogin(login);
                 modelLogin.setSenha(senha);
                 if (daoLogin.validarAutenticacao(modelLogin)) {
+
+                    modelLogin = daoUsuario.consultaUsuarioLogado(login);
+
                     request.getSession().setAttribute("usuario", modelLogin.getLogin());
+                    request.getSession().setAttribute("isAdmin", modelLogin.getUserAdmin());
+
                     if (url == null || url.equals("null")) {
                         url = "principal/principal.jsp";
                     }
